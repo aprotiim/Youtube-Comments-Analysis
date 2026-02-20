@@ -5,7 +5,7 @@ import logging
 import yaml
 import mlflow
 import mlflow.sklearn
-from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import classification_report, confusion_matrix,accuracy_score
 from sklearn.feature_extraction.text import TfidfVectorizer
 import os
 import matplotlib.pyplot as plt
@@ -86,10 +86,10 @@ def evaluate_model(model, X_test: np.ndarray, y_test: np.ndarray):
         y_pred = model.predict(X_test)
         report = classification_report(y_test, y_pred, output_dict=True)
         cm = confusion_matrix(y_test, y_pred)
-        
-        logger.debug('Model evaluation completed')
+        accuracy = accuracy_score(y_test, y_pred)
+        logger.debug('Model evaluation completed with accuracy: %f', accuracy)
 
-        return report, cm
+        return report, cm, accuracy
     except Exception as e:
         logger.error('Error during model evaluation: %s', e)
         raise
@@ -127,7 +127,7 @@ def save_model_info(run_id: str, model_path: str, file_path: str) -> None:
 
 
 def main():
-    mlflow.set_tracking_uri("http://ec2-54-196-109-131.compute-1.amazonaws.com:5000/")
+    mlflow.set_tracking_uri("http://ec2-3-150-122-46.us-east-2.compute.amazonaws.com:5000/")
 
     mlflow.set_experiment('dvc-pipeline-runs')
     
@@ -174,7 +174,7 @@ def main():
             mlflow.log_artifact(os.path.join(root_dir, 'tfidf_vectorizer.pkl'))
 
             # Evaluate model and get metrics
-            report, cm = evaluate_model(model, X_test_tfidf, y_test)
+            report, cm, accuracy = evaluate_model(model, X_test_tfidf, y_test)
 
             # Log classification report metrics for the test data
             for label, metrics in report.items():
@@ -184,6 +184,9 @@ def main():
                         f"test_{label}_recall": metrics['recall'],
                         f"test_{label}_f1-score": metrics['f1-score']
                     })
+
+            
+            mlflow.log_metric("accuracy", accuracy)
 
             # Log confusion matrix
             log_confusion_matrix(cm, "Test Data")

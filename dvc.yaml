@@ -1,4 +1,14 @@
 stages:
+  data_ingestion:
+    cmd: python src/data/data_ingestion.py
+    deps:
+    - src/data/data_ingestion.py
+    params:
+    - data_ingestion.test_size
+    outs:
+    - data/raw:
+        cache: false
+
   data_preprocessing:
     cmd: python src/data/data_preprocessing.py
     deps:
@@ -6,8 +16,8 @@ stages:
     - data/raw/test.csv
     - src/data/data_preprocessing.py
     outs:
-    - data/interim/train_processed.csv
-    - data/interim/test_processed.csv
+    - data/interim:
+        cache: false
 
   model_building:
     cmd: python src/model/model_building.py
@@ -21,8 +31,10 @@ stages:
     - model_building.max_depth
     - model_building.n_estimators
     outs:
-    - lgbm_model.pkl
-    - tfidf_vectorizer.pkl
+    - lgbm_model.pkl:
+        cache: false
+    - tfidf_vectorizer.pkl:
+        cache: false
 
   model_evaluation:
     cmd: python src/model/model_evaluation.py
@@ -33,5 +45,5 @@ stages:
     - data/interim/test_processed.csv
     - src/model/model_evaluation.py
     outs:
-    - experiment_info.json
-
+    - experiment_info.json:
+        cache: false
