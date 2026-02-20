@@ -3,5 +3,4 @@
 /cache
 # exclude data from source control by default
 /data/**
-!/data/raw/.gitkeep
-!/data/interim/.gitkeep
+!/data/**/.gitkeep
