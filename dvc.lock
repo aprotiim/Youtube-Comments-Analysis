@@ -46,8 +46,8 @@ stages:
       size: 4116883
     - path: src/model/model_evaluation.py
       hash: md5
-      md5: c72d6635823b898a5fffd614ed16585c
-      size: 7321
+      md5: 3dd19d894837feeceed1e0aa5d44f7b9
+      size: 7494
     - path: tfidf_vectorizer.pkl
       hash: md5
       md5: 3a43c61b0814bd1f1c13876b4e69b298
@@ -55,5 +55,53 @@ stages:
     outs:
     - path: experiment_info.json
       hash: md5
-      md5: 2a1ef1e24dde598fc3fed560511b7c8b
+      md5: 69849f19e0c8b33cbf74fda5d10897a5
       size: 87
+  data_ingestion:
+    cmd: python src/data/data_ingestion.py
+    deps:
+    - path: src/data/data_ingestion.py
+      hash: md5
+      md5: e376413a5f61926a3882aee774fe3955
+      size: 4295
+    params:
+      params.yaml:
+        data_ingestion.test_size: 0.2
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: e13bcce40396cd334c8a7a334868166a.dir
+      size: 6919701
+      nfiles: 2
+  data_preprocessing:
+    cmd: python src/data/data_preprocessing.py
+    deps:
+    - path: data/raw/test.csv
+      hash: md5
+      md5: ea97ba82a4a25627bf4ffb52572484ea
+      size: 1348612
+    - path: data/raw/train.csv
+      hash: md5
+      md5: 1bd422dd6d135bced1d6c64a3e84a45d
+      size: 5571089
+    - path: src/data/data_preprocessing.py
+      hash: md5
+      md5: 72ab680d346fb2c6543130ac26f90dd4
+      size: 3856
+    outs:
+    - path: data/interim
+      hash: md5
+      md5: ba42408e7bd1e85685474d6a349ae57e.dir
+      size: 5134850
+      nfiles: 2
+  model_registration:
+    cmd: python src/model/register_model.py
+    deps:
+    - path: experiment_info.json
+      hash: md5
+      md5: 69849f19e0c8b33cbf74fda5d10897a5
+      size: 87
+    - path: src/model/register_model.py
+      hash: md5
+      md5: c327a1c2ac7305a8a61686dc33a5dd1a
+      size: 2476
