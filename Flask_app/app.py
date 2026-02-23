@@ -78,18 +78,21 @@ def predict_with_timestamps():
     try:
         comments = [item['text'] for item in comments_data]
         timestamps = [item['timestamp'] for item in comments_data]
-
+        
         # Preprocess each comment before vectorizing
         preprocessed_comments = [preprocess_comment(comment) for comment in comments]
-        
-        # Transform comments using the vectorizer
+        feature_names = vectorizer.get_feature_names_out()
         transformed_comments = vectorizer.transform(preprocessed_comments)
-        
-        # Make predictions
-        predictions = model.predict(transformed_comments).tolist()  # Convert to list
-        
-        # Convert predictions to strings for consistency
-        predictions = [str(pred) for pred in predictions]
+
+        # Keep it sparse if you want, but DataFrame needs correct columns
+        transformed_df = pd.DataFrame(
+            transformed_comments.toarray(),
+            columns=feature_names
+        )
+
+        predictions = model.predict(transformed_df).tolist()
+        predictions = [str(p) for p in predictions]    
+   
     except Exception as e:
         return jsonify({"error": f"Prediction failed: {str(e)}"}), 500
     
@@ -110,13 +113,17 @@ def predict():
         preprocessed_comments = [preprocess_comment(comment) for comment in comments]
         
         # Transform comments using the vectorizer
+        feature_names = vectorizer.get_feature_names_out()
         transformed_comments = vectorizer.transform(preprocessed_comments)
-        
-        # Make predictions
-        predictions = model.predict(transformed_comments).tolist()  # Convert to list
-        
-        # Convert predictions to strings for consistency
-        predictions = [str(pred) for pred in predictions]
+
+        # Keep it sparse if you want, but DataFrame needs correct columns
+        transformed_df = pd.DataFrame(
+            transformed_comments.toarray(),
+            columns=feature_names
+        )
+
+        predictions = model.predict(transformed_df).tolist()
+        predictions = [str(p) for p in predictions]   
     except Exception as e:
         return jsonify({"error": f"Prediction failed: {str(e)}"}), 500
     
