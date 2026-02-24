@@ -8,7 +8,7 @@ from mlflow.tracking import MlflowClient
 mlflow.set_tracking_uri("http://ec2-3-150-122-46.us-east-2.compute.amazonaws.com:5000/")
 
 @pytest.mark.parametrize("model_name, stage, vectorizer_path", [
-    ("yt_chrome_plugin_model", "staging", "tfidf_vectorizer.pkl"),  # Replace with your actual model name and vectorizer path
+    ("my_model", "staging", "tfidf_vectorizer.pkl"),  # Replace with your actual model name and vectorizer path
 ])
 def test_model_with_vectorizer(model_name, stage, vectorizer_path):
     client = MlflowClient()
@@ -33,6 +33,9 @@ def test_model_with_vectorizer(model_name, stage, vectorizer_path):
         input_data = vectorizer.transform([input_text])
         input_df = pd.DataFrame(input_data.toarray(), columns=vectorizer.get_feature_names_out())  # <-- Use correct feature names
 
+        schema = model.metadata.get_input_schema()
+        expected_cols = [c.name for c in schema.inputs]
+        input_df = input_df.reindex(columns=expected_cols, fill_value=0.0)
         # Predict using the model
         prediction = model.predict(input_df)
 

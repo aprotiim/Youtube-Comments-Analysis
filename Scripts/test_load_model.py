@@ -6,7 +6,8 @@ from mlflow.tracking import MlflowClient
 mlflow.set_tracking_uri("http://ec2-3-150-122-46.us-east-2.compute.amazonaws.com:5000/")
 
 @pytest.mark.parametrize("model_name, stage", [
-    ("yt_chrome_plugin_model", "staging"),])
+    ("my_model", "staging"),])
+    
 def test_load_latest_staging_model(model_name, stage):
     client = MlflowClient()
     

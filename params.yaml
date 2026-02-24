@@ -5,5 +5,5 @@ model_building:
   ngram_range: [1, 3]  
   max_features: 10000
   learning_rate: 0.09
-  max_depth: 36
+  max_depth: 38
   n_estimators: 365
