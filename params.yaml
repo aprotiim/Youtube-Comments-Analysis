@@ -6,4 +6,4 @@ model_building:
   max_features: 10000
   learning_rate: 0.09
   max_depth: 40
-  n_estimators: 365
+  n_estimators: 370
