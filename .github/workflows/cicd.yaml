@@ -121,7 +121,7 @@ jobs:
         run: |
           docker push 613539139859.dkr.ecr.us-east-2.amazonaws.com/yt-chrome-plugin:latest
 
-            - name: Zip files for deployment
+      - name: Zip files for deployment
         if: success()
         run: |
           zip -r deployment.zip appspec.yml deploy/scripts/install_dependencies.sh deploy/scripts/start_docker.sh
