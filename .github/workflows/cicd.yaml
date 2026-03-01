@@ -142,7 +142,7 @@ jobs:
             --application-name YTChromePlugin \
             --deployment-config-name CodeDeployDefault.OneAtATime \
             --deployment-group-name YTChromepluginDeploymentgroup \
-            --s3-location bucket=codedeploybucket,key=deployment.zip,bundleType=zip \
+            --s3-location bucket=codedeploybucketytchromeplugin,key=deployment.zip,bundleType=zip \
             --file-exists-behavior OVERWRITE \
             --region us-east-2      
             
