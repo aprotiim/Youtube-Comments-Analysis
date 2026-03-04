@@ -55,3 +55,105 @@ Project Organization
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+# YouTube Comments Analysis (Chrome Plugin + MLOps Backend)
+
+A full-stack **YouTube Comments Analytics system** that performs **sentiment analysis and visual analytics** on YouTube comments.
+
+The project combines:
+
+- **Machine Learning** for sentiment classification
+- **Flask API** for real-time inference
+- **DVC + MLflow** for experiment tracking and model management
+- **Docker** for containerized deployment
+- **AWS CodeDeploy + ECR** for automated deployment
+- Designed to integrate with a **Chrome Extension frontend**
+
+This project demonstrates **end-to-end MLOps + ML deployment** for real-world NLP applications.
+
+---
+
+# Project Overview
+
+YouTube videos often receive thousands of comments. Analyzing sentiment manually is impossible.
+
+This system automatically:
+
+- Classifies comment sentiment
+- Generates analytics charts
+- Extracts common words
+- Tracks sentiment trends over time
+
+The backend is exposed via a **REST API** which can be used by:
+
+- Chrome extensions
+- Web dashboards
+- Data pipelines
+- External applications
+
+---
+
+# Features
+
+### Sentiment Analysis
+Classifies comments into:
+
+- Positive
+- Neutral
+- Negative
+
+---
+
+### Comment Analytics
+
+The API generates:
+
+- Sentiment distribution charts
+- Word clouds
+- Sentiment trend graphs
+
+---
+
+### Reproducible ML Pipeline
+
+Training pipeline managed using **DVC**:
+
+- Data ingestion
+- Data preprocessing
+- Model training
+- Model evaluation
+- Model registration
+
+---
+
+### MLflow Integration
+
+- Tracks experiments
+- Logs metrics
+- Logs artifacts
+- Registers models
+- Serves models for inference
+
+---
+
+### Dockerized Inference API
+
+Flask API runs inside Docker container for:
+
+- reproducibility
+- scalability
+- cloud deployment
+
+---
+
+### AWS Deployment Ready
+
+Supports deployment using:
+
+- AWS ECR
+- AWS CodeDeploy
+- EC2
+
+---
+
+# Architecture
+<img width="1562" height="931" alt="image" src="https://github.com/user-attachments/assets/8625e29c-3a10-48cd-962b-b1a93efe1eae" />
